@@ -11,6 +11,9 @@ RUN npm install
 # Copy the rest of the application code
 COPY . .
 
+# Copy the data directory for seeding the SQLite database
+COPY ./data ./data
+
 # Build TypeScript
 RUN npx tsc
 
