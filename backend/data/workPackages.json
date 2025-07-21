@@ -1,0 +1,662 @@
+[
+    {
+        "workPackageId": "19392169122587",
+        "name": "ABA/A-20240416",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABA",
+        "startDateTime": "2024-04-16T08:00:00.000Z",
+        "endDateTime": "2024-04-16T09:30:00.000Z"
+    },
+    {
+        "workPackageId": "39051305650578",
+        "name": "ABA/B-20240416",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABA",
+        "startDateTime": "2024-04-16T12:30:00.000Z",
+        "endDateTime": "2024-04-16T14:30:00.000Z"
+    },
+    {
+        "workPackageId": "77823543112363",
+        "name": "ABA/C-20240416",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABA",
+        "startDateTime": "2024-04-16T20:30:00.000Z",
+        "endDateTime": "2024-04-17T00:30:00.000Z"
+    },
+    {
+        "workPackageId": "50366294372084",
+        "name": "ABA/D-20240417",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABA",
+        "startDateTime": "2024-04-17T01:00:00.000Z",
+        "endDateTime": "2024-04-17T05:00:00.000Z"
+    },
+    {
+        "workPackageId": "41564024296888",
+        "name": "ABA/E-20240417",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABA",
+        "startDateTime": "2024-04-17T08:00:00.000Z",
+        "endDateTime": "2024-04-17T10:30:00.000Z"
+    },
+    {
+        "workPackageId": "14062415163189",
+        "name": "ABA/F-20240417",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABA",
+        "startDateTime": "2024-04-17T11:00:00.000Z",
+        "endDateTime": "2024-04-17T13:30:00.000Z"
+    },
+    {
+        "workPackageId": "10251641954391",
+        "name": "ABA/G-20240417",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABA",
+        "startDateTime": "2024-04-17T20:00:00.000Z",
+        "endDateTime": "2024-04-17T23:00:00.000Z"
+    },
+    {
+        "workPackageId": "65742168536751",
+        "name": "ABA/H-20240417",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABA",
+        "startDateTime": "2024-04-17T23:30:00.000Z",
+        "endDateTime": "2024-04-18T02:30:00.000Z"
+    },
+    {
+        "workPackageId": "75570070581448",
+        "name": "ABA/I-20240418",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABA",
+        "startDateTime": "2024-04-18T03:00:00.000Z",
+        "endDateTime": "2024-04-18T06:00:00.000Z"
+    },
+    {
+        "workPackageId": "90005079141583",
+        "name": "ABA/A-20240418",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABA",
+        "startDateTime": "2024-04-18T06:30:00.000Z",
+        "endDateTime": "2024-04-18T09:30:00.000Z"
+    },
+    {
+        "workPackageId": "21734491551911",
+        "name": "ABA/B-20240418",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABA",
+        "startDateTime": "2024-04-18T12:30:00.000Z",
+        "endDateTime": "2024-04-18T14:30:00.000Z"
+    },
+    {
+        "workPackageId": "43815534635243",
+        "name": "ABA/C-20240418",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABA",
+        "startDateTime": "2024-04-18T17:30:00.000Z",
+        "endDateTime": "2024-04-18T20:00:00.000Z"
+    },
+    {
+        "workPackageId": "17129751016927",
+        "name": "ABA/D-20240418",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABA",
+        "startDateTime": "2024-04-18T20:30:00.000Z",
+        "endDateTime": "2024-04-18T23:00:00.000Z"
+    },
+    {
+        "workPackageId": "23455740983816",
+        "name": "ABA/E-20240418",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABA",
+        "startDateTime": "2024-04-18T23:30:00.000Z",
+        "endDateTime": "2024-04-19T01:30:00.000Z"
+    },
+    {
+        "workPackageId": "52438191539200",
+        "name": "ABA/F-20240419",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABA",
+        "startDateTime": "2024-04-19T02:00:00.000Z",
+        "endDateTime": "2024-04-19T04:30:00.000Z"
+    },
+    {
+        "workPackageId": "79085676032247",
+        "name": "ABA/G-20240419",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABA",
+        "startDateTime": "2024-04-19T09:30:00.000Z",
+        "endDateTime": "2024-04-19T13:30:00.000Z"
+    },
+    {
+        "workPackageId": "34300903932081",
+        "name": "ABB/H-20240415",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABB",
+        "startDateTime": "2024-04-15T12:30:00.000Z",
+        "endDateTime": "2024-04-15T14:30:00.000Z"
+    },
+    {
+        "workPackageId": "30372797326338",
+        "name": "ABB/I-20240415",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABB",
+        "startDateTime": "2024-04-15T23:30:00.000Z",
+        "endDateTime": "2024-04-16T06:30:00.000Z"
+    },
+    {
+        "workPackageId": "7678882836463",
+        "name": "ABB/A-20240416",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABB",
+        "startDateTime": "2024-04-16T02:00:00.000Z",
+        "endDateTime": "2024-04-16T09:00:00.000Z"
+    },
+    {
+        "workPackageId": "53411980724430",
+        "name": "ABB/B-20240416",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABB",
+        "startDateTime": "2024-04-16T13:00:00.000Z",
+        "endDateTime": "2024-04-16T15:00:00.000Z"
+    },
+    {
+        "workPackageId": "76401419386887",
+        "name": "ABB/C-20240416",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABB",
+        "startDateTime": "2024-04-16T19:00:00.000Z",
+        "endDateTime": "2024-04-16T23:30:00.000Z"
+    },
+    {
+        "workPackageId": "6661395584997",
+        "name": "ABB/D-20240417",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABB",
+        "startDateTime": "2024-04-17T00:00:00.000Z",
+        "endDateTime": "2024-04-17T04:00:00.000Z"
+    },
+    {
+        "workPackageId": "99936489964015",
+        "name": "ABB/E-20240418",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABB",
+        "startDateTime": "2024-04-18T19:30:00.000Z",
+        "endDateTime": "2024-04-19T00:00:00.000Z"
+    },
+    {
+        "workPackageId": "35058469846651",
+        "name": "ABB/F-20240419",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABB",
+        "startDateTime": "2024-04-19T00:30:00.000Z",
+        "endDateTime": "2024-04-19T04:30:00.000Z"
+    },
+    {
+        "workPackageId": "48472634736062",
+        "name": "ABC/G-20240416",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABC",
+        "startDateTime": "2024-04-16T11:00:00.000Z",
+        "endDateTime": "2024-04-16T14:00:00.000Z"
+    },
+    {
+        "workPackageId": "68381448570808",
+        "name": "ABC/H-20240417",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABC",
+        "startDateTime": "2024-04-17T11:30:00.000Z",
+        "endDateTime": "2024-04-17T13:00:00.000Z"
+    },
+    {
+        "workPackageId": "90886309522128",
+        "name": "ABC/I-20240419",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABC",
+        "startDateTime": "2024-04-19T03:00:00.000Z",
+        "endDateTime": "2024-04-19T07:00:00.000Z"
+    },
+    {
+        "workPackageId": "87219966428699",
+        "name": "ABC/A-20240419",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABC",
+        "startDateTime": "2024-04-19T07:30:00.000Z",
+        "endDateTime": "2024-04-19T11:30:00.000Z"
+    },
+    {
+        "workPackageId": "14382149152430",
+        "name": "ABC/B-20240419",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABC",
+        "startDateTime": "2024-04-19T12:00:00.000Z",
+        "endDateTime": "2024-04-19T16:00:00.000Z"
+    },
+    {
+        "workPackageId": "30366828023885",
+        "name": "ABC/C-20240419",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABC",
+        "startDateTime": "2024-04-19T16:30:00.000Z",
+        "endDateTime": "2024-04-19T20:30:00.000Z"
+    },
+    {
+        "workPackageId": "62069721058443",
+        "name": "ABD/D-20240416",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABD",
+        "startDateTime": "2024-04-16T13:00:00.000Z",
+        "endDateTime": "2024-04-16T15:00:00.000Z"
+    },
+    {
+        "workPackageId": "60827223549366",
+        "name": "ABD/E-20240418",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABD",
+        "startDateTime": "2024-04-18T02:30:00.000Z",
+        "endDateTime": "2024-04-18T05:00:00.000Z"
+    },
+    {
+        "workPackageId": "8292401923515",
+        "name": "ABD/F-20240418",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABD",
+        "startDateTime": "2024-04-18T05:30:00.000Z",
+        "endDateTime": "2024-04-18T08:30:00.000Z"
+    },
+    {
+        "workPackageId": "85134921981871",
+        "name": "ABD/G-20240418",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABD",
+        "startDateTime": "2024-04-18T09:00:00.000Z",
+        "endDateTime": "2024-04-18T11:30:00.000Z"
+    },
+    {
+        "workPackageId": "34370687000101",
+        "name": "ABD/H-20240418",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABD",
+        "startDateTime": "2024-04-18T12:00:00.000Z",
+        "endDateTime": "2024-04-18T15:00:00.000Z"
+    },
+    {
+        "workPackageId": "68140030156069",
+        "name": "ABE/I-20240417",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABE",
+        "startDateTime": "2024-04-17T08:30:00.000Z",
+        "endDateTime": "2024-04-17T13:00:00.000Z"
+    },
+    {
+        "workPackageId": "65470812899282",
+        "name": "ABE/A-20240417",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABE",
+        "startDateTime": "2024-04-17T13:30:00.000Z",
+        "endDateTime": "2024-04-17T18:00:00.000Z"
+    },
+    {
+        "workPackageId": "87158489493584",
+        "name": "ABE/B-20240417",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABE",
+        "startDateTime": "2024-04-17T18:30:00.000Z",
+        "endDateTime": "2024-04-17T23:30:00.000Z"
+    },
+    {
+        "workPackageId": "55012612571510",
+        "name": "ABE/C-20240418",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABE",
+        "startDateTime": "2024-04-18T00:00:00.000Z",
+        "endDateTime": "2024-04-18T04:30:00.000Z"
+    },
+    {
+        "workPackageId": "35950256822160",
+        "name": "ABE/D-20240418",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABE",
+        "startDateTime": "2024-04-18T20:00:00.000Z",
+        "endDateTime": "2024-04-19T00:00:00.000Z"
+    },
+    {
+        "workPackageId": "61847151594544",
+        "name": "ABE/E-20240419",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABE",
+        "startDateTime": "2024-04-19T00:30:00.000Z",
+        "endDateTime": "2024-04-19T04:00:00.000Z"
+    },
+    {
+        "workPackageId": "85330551102265",
+        "name": "ABE/F-20240419",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABE",
+        "startDateTime": "2024-04-19T11:00:00.000Z",
+        "endDateTime": "2024-04-19T13:00:00.000Z"
+    },
+    {
+        "workPackageId": "95132031045675",
+        "name": "ABF/G-20240415",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABF",
+        "startDateTime": "2024-04-15T06:30:00.000Z",
+        "endDateTime": "2024-04-15T09:30:00.000Z"
+    },
+    {
+        "workPackageId": "80601851302140",
+        "name": "ABF/H-20240415",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABF",
+        "startDateTime": "2024-04-15T21:00:00.000Z",
+        "endDateTime": "2024-04-16T00:00:00.000Z"
+    },
+    {
+        "workPackageId": "64399878255137",
+        "name": "ABF/I-20240416",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABF",
+        "startDateTime": "2024-04-16T00:30:00.000Z",
+        "endDateTime": "2024-04-16T04:00:00.000Z"
+    },
+    {
+        "workPackageId": "11012428934225",
+        "name": "ABF/A-20240416",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABF",
+        "startDateTime": "2024-04-16T21:00:00.000Z",
+        "endDateTime": "2024-04-17T00:00:00.000Z"
+    },
+    {
+        "workPackageId": "28118800663670",
+        "name": "ABF/B-20240417",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABF",
+        "startDateTime": "2024-04-17T01:30:00.000Z",
+        "endDateTime": "2024-04-17T04:30:00.000Z"
+    },
+    {
+        "workPackageId": "69527718262014",
+        "name": "ABF/C-20240417",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABF",
+        "startDateTime": "2024-04-17T12:30:00.000Z",
+        "endDateTime": "2024-04-17T14:30:00.000Z"
+    },
+    {
+        "workPackageId": "49848937063359",
+        "name": "ABG/D-20240415",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABG",
+        "startDateTime": "2024-04-15T13:00:00.000Z",
+        "endDateTime": "2024-04-15T15:00:00.000Z"
+    },
+    {
+        "workPackageId": "2325536758913",
+        "name": "ABG/E-20240415",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABG",
+        "startDateTime": "2024-04-15T19:00:00.000Z",
+        "endDateTime": "2024-04-15T23:30:00.000Z"
+    },
+    {
+        "workPackageId": "19440241147175",
+        "name": "ABG/F-20240416",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABG",
+        "startDateTime": "2024-04-16T00:00:00.000Z",
+        "endDateTime": "2024-04-16T04:00:00.000Z"
+    },
+    {
+        "workPackageId": "57110098650939",
+        "name": "ABG/G-20240417",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABG",
+        "startDateTime": "2024-04-17T19:30:00.000Z",
+        "endDateTime": "2024-04-17T22:00:00.000Z"
+    },
+    {
+        "workPackageId": "21445542462033",
+        "name": "ABG/H-20240417",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABG",
+        "startDateTime": "2024-04-17T22:30:00.000Z",
+        "endDateTime": "2024-04-18T01:00:00.000Z"
+    },
+    {
+        "workPackageId": "47207797105409",
+        "name": "ABG/I-20240418",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABG",
+        "startDateTime": "2024-04-18T01:30:00.000Z",
+        "endDateTime": "2024-04-18T04:00:00.000Z"
+    },
+    {
+        "workPackageId": "22532055829502",
+        "name": "ABG/A-20240418",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABG",
+        "startDateTime": "2024-04-18T04:30:00.000Z",
+        "endDateTime": "2024-04-18T06:30:00.000Z"
+    },
+    {
+        "workPackageId": "39522349429185",
+        "name": "ABG/B-20240418",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABG",
+        "startDateTime": "2024-04-18T20:00:00.000Z",
+        "endDateTime": "2024-04-19T00:00:00.000Z"
+    },
+    {
+        "workPackageId": "50140936426126",
+        "name": "ABG/C-20240419",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABG",
+        "startDateTime": "2024-04-19T00:30:00.000Z",
+        "endDateTime": "2024-04-19T03:30:00.000Z"
+    },
+    {
+        "workPackageId": "28991977853644",
+        "name": "ABH/D-20240415",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABH",
+        "startDateTime": "2024-04-15T12:30:00.000Z",
+        "endDateTime": "2024-04-15T14:30:00.000Z"
+    },
+    {
+        "workPackageId": "83697330222611",
+        "name": "ABH/E-20240418",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABH",
+        "startDateTime": "2024-04-18T21:30:00.000Z",
+        "endDateTime": "2024-04-19T00:30:00.000Z"
+    },
+    {
+        "workPackageId": "59092696272065",
+        "name": "ABH/F-20240419",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABH",
+        "startDateTime": "2024-04-19T01:00:00.000Z",
+        "endDateTime": "2024-04-19T04:00:00.000Z"
+    },
+    {
+        "workPackageId": "26708180048095",
+        "name": "ABI/G-20240416",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABI",
+        "startDateTime": "2024-04-16T15:30:00.000Z",
+        "endDateTime": "2024-04-16T21:30:00.000Z"
+    },
+    {
+        "workPackageId": "75334882951059",
+        "name": "ABI/H-20240416",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABI",
+        "startDateTime": "2024-04-16T21:30:00.000Z",
+        "endDateTime": "2024-04-17T03:00:00.000Z"
+    },
+    {
+        "workPackageId": "60494477148133",
+        "name": "ABI/I-20240417",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABI",
+        "startDateTime": "2024-04-17T03:30:00.000Z",
+        "endDateTime": "2024-04-17T09:00:00.000Z"
+    },
+    {
+        "workPackageId": "22021546643393",
+        "name": "ABI/A-20240417",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABI",
+        "startDateTime": "2024-04-17T09:30:00.000Z",
+        "endDateTime": "2024-04-17T15:00:00.000Z"
+    },
+    {
+        "workPackageId": "92665899437912",
+        "name": "ABI/B-20240418",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABI",
+        "startDateTime": "2024-04-18T11:30:00.000Z",
+        "endDateTime": "2024-04-18T14:00:00.000Z"
+    },
+    {
+        "workPackageId": "94434017961828",
+        "name": "ABI/C-20240419",
+        "station": "HEL",
+        "status": "OPEN",
+        "area": "APRON",
+        "registration": "ABI",
+        "startDateTime": "2024-04-19T11:30:00.000Z",
+        "endDateTime": "2024-04-19T14:00:00.000Z"
+    }
+]
