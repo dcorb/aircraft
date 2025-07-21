@@ -23,11 +23,17 @@ function App() {
   }, []);
 
   return (
-    <div className="container">
-      <h1>Backend Message Example</h1>
-      {loading && <p>Loading...</p>}
-      {error && <p style={{ color: 'red' }}>Error: {error}</p>}
-      {!loading && !error && <p>{message}</p>}
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-50 to-blue-200 p-4">
+      <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full text-center">
+        <h1 className="text-3xl font-bold mb-6 text-blue-700">
+          Backend Message Example
+        </h1>
+        {loading && <p className="text-gray-500 animate-pulse">Loading...</p>}
+        {error && <p className="text-red-600 font-semibold">Error: {error}</p>}
+        {!loading && !error && (
+          <p className="text-lg text-gray-800">{message}</p>
+        )}
+      </div>
     </div>
   );
 }
