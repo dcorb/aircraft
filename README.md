@@ -93,6 +93,8 @@ npm start
 ```sh
 cd frontend
 npm install
+# Copy .env.example to .env for local development
+cp .env.example .env
 npm run dev
 # The frontend runs on http://localhost:5173 (default Vite port)
 # API requests to /api/* are proxied to the backend
