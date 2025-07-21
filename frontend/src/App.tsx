@@ -10,13 +10,13 @@ function App() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    fetch('/api/message')
+    const apiUrl = import.meta.env.VITE_API_URL || '';
+    const url = apiUrl ? `${apiUrl}/api/flights` : '/api/flights';
+    fetch(url)
       .then((res) => {
         if (!res.ok) throw new Error('Network response was not ok');
-        return res.json();
-      })
-      .then((data) => {
-        setMessage(data.message);
+        // Don't use the response, just print OK
+        setMessage('OK');
         setLoading(false);
       })
       .catch((err) => {

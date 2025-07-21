@@ -4,11 +4,65 @@ This project contains a TypeScript/Express backend and a React/TypeScript fronte
 
 ---
 
+## Quick Start (Recommended)
+
+To run the project:
+
+```sh
+# Clone the repository
+git clone <your-repo-url>
+cd qoco
+
+# Run everything with Docker Compose
+docker compose up --build
+```
+
+That's it, the app will be available at:
+
+- **Frontend**: http://localhost:8080
+- **Backend**: http://localhost:3001
+
+No additional setup, environment files, or configuration needed.
+
+---
+
+## Tech Stack
+
+### Frontend
+
+- **React 19.1.0** - UI framework
+- **TypeScript 5.8.3** - Type safety
+- **Vite 7.0.4** - Build tool and dev server
+- **Tailwind CSS 4.1.11** - Utility-first CSS framework
+- **shadcn/ui** - Pre-built UI components
+  - Radix UI primitives
+  - Lucide React icons
+  - Class Variance Authority for component variants
+- **ESLint 9.30.1** - Code linting
+- **Prettier** - Code formatting
+
+### Backend
+
+- **Node.js** - Runtime environment
+- **Express 5.1.0** - Web framework
+- **TypeScript 5.8.3** - Type safety
+- **Better SQLite3 12.2.0** - Database
+- **ts-node 10.9.2** - TypeScript execution
+- **ESLint 9.31.0** - Code linting
+- **Prettier** - Code formatting
+
+### Development Tools
+
+- **Docker** - Containerization
+- **npm** - Package management
+- **Git** - Version control
+
+---
+
 ## Requirements
 
-- **Node.js v20 or higher** (for local development)
-- **npm**
 - **Docker** (for containerized usage)
+- **Node.js v20 or higher** (for local development)
 
 ---
 
@@ -53,23 +107,19 @@ npm run dev
 
 ---
 
-## Docker Usage
+## Docker Compose
 
-### Backend
-
-```sh
-cd backend
-docker build -t qoco-backend .
-docker run -p 3001:3001 qoco-backend
-```
-
-### Frontend
+To run both frontend and backend together with proper networking and environment variables:
 
 ```sh
-cd frontend
-docker build -t qoco-frontend .
-docker run -p 8080:80 qoco-frontend
+docker compose up --build
 ```
+
+- The frontend will be available at http://localhost:8080
+- The backend will be available at http://localhost:3001
+
+The frontend will use the correct API URL via the `VITE_API_URL` environment variable set in `docker-compose.yml`.
+
 
 ---
 
@@ -88,3 +138,10 @@ VSCode is configured to auto-fix and format on save.
 
 - Make sure the backend is running before starting the frontend for API requests to work.
 - For production, serve the frontend from a static host and point it to the backend API.
+
+---
+
+## Out of Scope
+
+- **No timezone management:** All dates/times are considered UTC. No conversion or timezone logic is applied.
+- **No authentication, API rate limiting, etc.:** The API is open and unsecured for demo/development purposes only.
