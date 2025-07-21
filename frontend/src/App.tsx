@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import './App.css';
+import { Card, CardContent, CardHeader, CardTitle } from './components/ui/card';
+import { Alert, AlertDescription } from './components/ui/alert';
+import { Loader2 } from 'lucide-react';
 
 function App() {
   const [message, setMessage] = useState('');
@@ -24,16 +27,29 @@ function App() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-50 to-blue-200 p-4">
-      <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full text-center">
-        <h1 className="text-3xl font-bold mb-6 text-blue-700">
-          Backend Message Example
-        </h1>
-        {loading && <p className="text-gray-500 animate-pulse">Loading...</p>}
-        {error && <p className="text-red-600 font-semibold">Error: {error}</p>}
-        {!loading && !error && (
-          <p className="text-lg text-gray-800">{message}</p>
-        )}
-      </div>
+      <Card className="max-w-md w-full">
+        <CardHeader className="text-center">
+          <CardTitle className="text-3xl font-bold text-blue-700">
+            Backend Message Example
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="text-center space-y-4">
+          {loading && (
+            <div className="flex items-center justify-center space-x-2">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              <span className="text-muted-foreground">Loading...</span>
+            </div>
+          )}
+          {error && (
+            <Alert variant="destructive">
+              <AlertDescription>Error: {error}</AlertDescription>
+            </Alert>
+          )}
+          {!loading && !error && (
+            <p className="text-lg text-foreground">{message}</p>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }
