@@ -6,7 +6,7 @@ This project contains a TypeScript/Express backend and a React/TypeScript fronte
 
 ## Quick Start (Recommended)
 
-To run the project:
+To run the project with **Docker Compose**, both frontend and backend together with proper networking and environment variables:
 
 ```sh
 # Clone the repository
@@ -83,12 +83,11 @@ qoco/
 ```sh
 cd backend
 npm install
-npm run build
-npm start
+npm run dev
 # The backend runs on http://localhost:3001
 ```
 
-### 2. Start the Frontend (with API proxy)
+### 2. Start the Frontend
 
 ```sh
 cd frontend
@@ -97,31 +96,7 @@ npm install
 cp .env.example .env
 npm run dev
 # The frontend runs on http://localhost:5173 (default Vite port)
-# API requests to /api/* are proxied to the backend
 ```
-
----
-
-## Example: Backend-to-Frontend API
-
-- The backend exposes a GET endpoint at `/api/message`.
-- The frontend fetches and displays this message on load.
-
----
-
-## Docker Compose
-
-To run both frontend and backend together with proper networking and environment variables:
-
-```sh
-docker compose up --build
-```
-
-- The frontend will be available at http://localhost:8080
-- The backend will be available at http://localhost:3001
-
-The frontend will use the correct API URL via the `VITE_API_URL` environment variable set in `docker-compose.yml`.
-
 
 ---
 
@@ -136,14 +111,7 @@ VSCode is configured to auto-fix and format on save.
 
 ---
 
-## Notes
-
-- Make sure the backend is running before starting the frontend for API requests to work.
-- For production, serve the frontend from a static host and point it to the backend API.
-
----
-
-## Out of Scope
+## Next steps:
 
 - **No timezone management:** All dates/times are considered UTC. No conversion or timezone logic is applied.
 - **No authentication, API rate limiting, etc.:** The API is open and unsecured for demo/development purposes only.
