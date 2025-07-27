@@ -4,10 +4,19 @@ import type { TimelineRowProps } from '../types/timeline';
 import { TIMELINE_CONSTANTS } from '../constants';
 import { getTimelineStartTime } from '../utils/timeline';
 
-function getBlockPosition(start: string, end: string, timelineStart: number) {
+function getBlockPosition(
+  start: string,
+  end: string,
+  timelineStart: number,
+  maxTime: number,
+) {
   // Convert time differences to pixels relative to timeline start (00:00 of first day)
   const startOffsetMs = Date.parse(start) - timelineStart;
-  const durationMs = Date.parse(end) - Date.parse(start);
+
+  // Cap the end time at our window boundary
+  const originalEndMs = Date.parse(end);
+  const cappedEndMs = Math.min(originalEndMs, maxTime);
+  const durationMs = cappedEndMs - Date.parse(start);
 
   const startOffsetHours =
     startOffsetMs / TIMELINE_CONSTANTS.MILLISECONDS_PER_HOUR;
@@ -23,6 +32,7 @@ const TimelineRow: React.FC<TimelineRowProps> = ({
   flights,
   workPackages,
   minTime,
+  maxTime,
   timelineWidth,
   rowHeight,
 }) => {
@@ -44,6 +54,7 @@ const TimelineRow: React.FC<TimelineRowProps> = ({
           flight.schedDepTime,
           flight.schedArrTime,
           timelineStart,
+          maxTime,
         );
         return (
           <div
@@ -66,6 +77,7 @@ const TimelineRow: React.FC<TimelineRowProps> = ({
           wp.startDateTime,
           wp.endDateTime,
           timelineStart,
+          maxTime,
         );
         // Simulate work order count (random 1-5)
         const workOrderCount = Math.floor(Math.random() * 5) + 1;

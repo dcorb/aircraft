@@ -1,7 +1,6 @@
 import React from 'react';
 import type { TimelineHeaderProps } from '../types/timeline';
 import { TIMELINE_CONSTANTS } from '../constants';
-import { getTimelineRange } from '../utils/timeline';
 
 function getTicks(min: number, max: number) {
   // Start from 00:00 UTC of the first day in the range
@@ -18,9 +17,8 @@ function getTicks(min: number, max: number) {
     ),
   );
 
-  // End at the exact max time, but round up to the nearest hour in UTC
+  // End at the exact max time we specify
   const endTime = new Date(max);
-  endTime.setUTCHours(endTime.getUTCHours() + 1, 0, 0, 0);
 
   const ticks = [];
   const current = new Date(startTime);
@@ -49,7 +47,10 @@ function getTicks(min: number, max: number) {
   return { ticks, timelineStart: startTime.getTime() };
 }
 
-function getDateGroups(ticks: { time: Date; leftPx: number }[]) {
+function getDateGroups(
+  ticks: { time: Date; leftPx: number }[],
+  maxTime: number,
+) {
   const dateGroups: {
     date: Date;
     hours: { time: Date; leftPx: number }[];
@@ -72,7 +73,11 @@ function getDateGroups(ticks: { time: Date; leftPx: number }[]) {
     if (currentDate === null || tickDate.getTime() !== currentDate.getTime()) {
       if (currentDate !== null) {
         const startPx = currentHours[0].leftPx;
-        const endPx = currentHours[currentHours.length - 1].leftPx + 100; // Last tick + 100px
+        // Don't extend beyond our time boundary
+        const maxPx =
+          ((maxTime - currentHours[0].time.getTime()) / (60 * 60 * 1000)) * 100;
+        const naturalEndPx = currentHours[currentHours.length - 1].leftPx + 100;
+        const endPx = Math.min(naturalEndPx, maxPx);
         dateGroups.push({
           date: currentDate,
           hours: currentHours,
@@ -89,7 +94,11 @@ function getDateGroups(ticks: { time: Date; leftPx: number }[]) {
 
   if (currentDate !== null) {
     const startPx = currentHours[0].leftPx;
-    const endPx = currentHours[currentHours.length - 1].leftPx + 100; // Last tick + 100px
+    // Don't extend beyond our time boundary
+    const maxPx =
+      ((maxTime - currentHours[0].time.getTime()) / (60 * 60 * 1000)) * 100;
+    const naturalEndPx = currentHours[currentHours.length - 1].leftPx + 100;
+    const endPx = Math.min(naturalEndPx, maxPx);
     dateGroups.push({
       date: currentDate,
       hours: currentHours,
@@ -102,13 +111,12 @@ function getDateGroups(ticks: { time: Date; leftPx: number }[]) {
 }
 
 const TimelineHeader: React.FC<TimelineHeaderProps> = ({
-  flights,
-  workPackages,
   timelineWidth,
+  min,
+  max,
 }) => {
-  const { min, max } = getTimelineRange(flights, workPackages);
   const { ticks, timelineStart } = getTicks(min, max);
-  const dateGroups = getDateGroups(ticks);
+  const dateGroups = getDateGroups(ticks, max);
 
   return (
     <div

@@ -35,9 +35,9 @@ export interface TimelineRange {
 }
 
 export interface TimelineHeaderProps {
-  flights: Flight[];
-  workPackages: WorkPackage[];
   timelineWidth: number;
+  min: number;
+  max: number;
 }
 
 export interface TimelineRowProps {
