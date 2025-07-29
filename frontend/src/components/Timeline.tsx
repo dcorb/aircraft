@@ -5,6 +5,7 @@ import type { Flight, WorkPackage } from '../types/timeline';
 import { TIMELINE_CONSTANTS, DEMO_CURRENT_TIME } from '../constants';
 import { getTimelineWidth } from '../utils/timeline';
 import { calculateRowHeight } from '../utils/intervalScheduling';
+import { generateDemoWorkPackages } from '../utils/demoUtils';
 
 // Helper functions for date management
 
@@ -67,6 +68,7 @@ function getTimePosition(
 const Timeline: React.FC = () => {
   const [flights, setFlights] = useState<Flight[]>([]);
   const [workPackages, setWorkPackages] = useState<WorkPackage[]>([]);
+  const [demoWorkPackages, setDemoWorkPackages] = useState<WorkPackage[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -192,15 +194,31 @@ const Timeline: React.FC = () => {
     fetchData(currentStartDate);
   }, [currentStartDate, fetchData]);
 
+  // Demo functions
+  const handleGenerateDemo = useCallback(() => {
+    const demoWPs = generateDemoWorkPackages(flights, workPackages, 100);
+    setDemoWorkPackages(demoWPs);
+  }, [flights, workPackages]);
+
+  const clearDemoWorkPackages = useCallback(() => {
+    console.log('Clearing demo work packages');
+    setDemoWorkPackages([]);
+  }, []);
+
+  // Combine real and demo work packages
+  const allWorkPackages = React.useMemo(() => {
+    return [...workPackages, ...demoWorkPackages];
+  }, [workPackages, demoWorkPackages]);
+
   // Group flights and work packages by registration - keep stable order
   const registrations = React.useMemo(() => {
     return Array.from(
       new Set([
         ...flights.map((f) => f.registration),
-        ...workPackages.map((wp) => wp.registration),
+        ...allWorkPackages.map((wp) => wp.registration),
       ]),
     ).sort();
-  }, [flights, workPackages]);
+  }, [flights, allWorkPackages]);
 
   // Function to scroll to center the current time
   const scrollToCurrentTime = useCallback(() => {
@@ -342,17 +360,20 @@ const Timeline: React.FC = () => {
 
   // Calculate row heights dynamically based on content
   const rowHeights = React.useMemo(() => {
-    return registrations.map((registration) => {
+    const heights = registrations.map((registration) => {
       const aircraftFlights = flights.filter(
         (f) => f.registration === registration,
       );
-      const aircraftWorkPackages = workPackages.filter(
+      const aircraftWorkPackages = allWorkPackages.filter(
         (wp) => wp.registration === registration,
       );
 
-      return calculateRowHeight(aircraftFlights, aircraftWorkPackages);
+      const height = calculateRowHeight(aircraftFlights, aircraftWorkPackages);
+      return height;
     });
-  }, [registrations, flights, workPackages]);
+
+    return heights;
+  }, [registrations, flights, allWorkPackages]);
 
   if (loading)
     return <div className="p-8 text-center">Loading timeline...</div>;
@@ -387,13 +408,13 @@ const Timeline: React.FC = () => {
   };
 
   return (
-    <div className="h-screen overflow-hidden bg-gray-50">
+    <div className="overflow-hidden bg-gray-50" style={{ height: '100%' }}>
       {/* Navigation Header */}
       <div className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <h1 className="text-xl font-semibold text-gray-900">
-              Flight Timeline
+              Aircraft Maintenance
             </h1>
             <div className="flex items-center space-x-2">
               <button
@@ -412,101 +433,129 @@ const Timeline: React.FC = () => {
               >
                 Next →
               </button>
+              <button
+                onClick={goToNow}
+                className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded border transition-colors ml-2"
+              >
+                Now
+              </button>
             </div>
           </div>
           <div className="flex items-center space-x-4">
             <span className="text-sm text-gray-500">
-              {flights.length} flights, {workPackages.length} work packages
+              {flights.length} flights, {allWorkPackages.length} work packages
+              {demoWorkPackages.length > 0 && (
+                <span className="text-purple-600">
+                  {' '}
+                  ({demoWorkPackages.length} demo)
+                </span>
+              )}
             </span>
             <button
-              onClick={goToNow}
-              className="px-4 py-2 text-sm rounded border transition-colors bg-blue-500 text-white hover:bg-blue-600"
+              onClick={handleGenerateDemo}
+              className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded border transition-colors"
             >
-              Now
+              Demo
             </button>
+            {demoWorkPackages.length > 0 && (
+              <button
+                onClick={clearDemoWorkPackages}
+                className="px-3 py-1 text-sm bg-gray-100 hover:bg-gray-200 rounded border transition-colors"
+              >
+                Clear
+              </button>
+            )}
           </div>
         </div>
       </div>
 
       {/* Timeline Content */}
-      <div className="flex h-full">
-        {/* Sidebar */}
-        <div className="bg-white border-r border-gray-200">
-          <div
-            className="bg-gray-100 border-b border-gray-200 flex items-center justify-center text-sm font-medium text-gray-700"
-            style={{ height: TIMELINE_CONSTANTS.HEADER_HEIGHT }}
-          >
-            Aircraft
+      <div
+        className="flex overflow-hidden"
+        style={{ height: 'calc(100% - 80px)' }}
+      >
+        {/* Shared vertical scroll container */}
+        <div className="flex flex-1 overflow-y-auto">
+          {/* Sidebar - Fixed horizontally, scrolls vertically with content */}
+          <div className="bg-white border-r border-gray-200 flex-shrink-0 relative z-20">
+            {/* Invisible spacer to align with timeline header */}
+            <div
+              style={{ height: TIMELINE_CONSTANTS.HEADER_HEIGHT }}
+              className="border-b border-gray-200"
+            ></div>
+            {registrations.map((registration, index) => (
+              <div
+                key={registration}
+                className="border-b border-gray-200 bg-white flex items-center px-4 text-sm text-gray-700"
+                style={{
+                  height: rowHeights[index],
+                  width: TIMELINE_CONSTANTS.SIDEBAR_WIDTH,
+                }}
+              >
+                <span className="font-medium">{registration}</span>
+              </div>
+            ))}
           </div>
-          {registrations.map((registration, index) => (
-            <div
-              key={registration}
-              className="border-b border-gray-200 bg-white flex items-center px-4 text-sm text-gray-700"
-              style={{
-                height: rowHeights[index],
-                width: TIMELINE_CONSTANTS.SIDEBAR_WIDTH,
-              }}
-            >
-              <span className="font-medium">{registration}</span>
-            </div>
-          ))}
-        </div>
 
-        {/* Timeline */}
-        <div className="flex-1 overflow-auto" ref={timelineScrollRef}>
-          <div className="relative min-w-full">
-            <div
-              style={{
-                width: timelineWidth,
-                height:
-                  TIMELINE_CONSTANTS.HEADER_HEIGHT +
-                  rowHeights.reduce((sum, height) => sum + height, 0),
-              }}
-            >
-              <TimelineHeader
-                timelineWidth={timelineWidth}
-                min={timelineMin}
-                max={timelineMax}
-              />
-              {registrations.map((registration, index) => {
-                const aircraftFlights = flights.filter(
-                  (f) => f.registration === registration,
-                );
-                const aircraftWorkPackages = workPackages.filter(
-                  (wp) => wp.registration === registration,
-                );
-
-                return (
-                  <TimelineRow
-                    key={registration}
-                    flights={aircraftFlights}
-                    workPackages={aircraftWorkPackages}
-                    minTime={timelineMin}
-                    maxTime={timelineMax}
-                    timelineWidth={timelineWidth}
-                    rowHeight={rowHeights[index]}
-                  />
-                );
-              })}
-
-              {/* Current Time Indicator Line */}
-              {isCurrentTimeVisible && (
-                <div
-                  className="absolute top-0 w-px bg-black z-10"
-                  style={{
-                    left: `${currentTimePosition}px`,
-                    height: '100%',
-                  }}
-                  title={`Current Time: ${DEMO_CURRENT_TIME.toLocaleString(
-                    'en-US',
-                    {
-                      timeZone: 'UTC',
-                      dateStyle: 'short',
-                      timeStyle: 'short',
-                    },
-                  )} UTC`}
+          {/* Timeline - Scrolls horizontally, vertical scroll handled by parent */}
+          <div
+            className="flex-1 overflow-x-auto overflow-y-hidden"
+            ref={timelineScrollRef}
+          >
+            <div className="relative">
+              <div
+                style={{
+                  width: timelineWidth,
+                  height:
+                    TIMELINE_CONSTANTS.HEADER_HEIGHT +
+                    rowHeights.reduce((sum, height) => sum + height, 0),
+                }}
+              >
+                <TimelineHeader
+                  timelineWidth={timelineWidth}
+                  min={timelineMin}
+                  max={timelineMax}
                 />
-              )}
+                {registrations.map((registration, index) => {
+                  const aircraftFlights = flights.filter(
+                    (f) => f.registration === registration,
+                  );
+                  const aircraftWorkPackages = allWorkPackages.filter(
+                    (wp) => wp.registration === registration,
+                  );
+
+                  return (
+                    <TimelineRow
+                      key={registration}
+                      flights={aircraftFlights}
+                      workPackages={aircraftWorkPackages}
+                      minTime={timelineMin}
+                      maxTime={timelineMax}
+                      timelineWidth={timelineWidth}
+                      rowHeight={rowHeights[index]}
+                    />
+                  );
+                })}
+
+                {/* Current Time Indicator Line */}
+                {isCurrentTimeVisible && (
+                  <div
+                    className="absolute top-0 w-px bg-black z-10"
+                    style={{
+                      left: `${currentTimePosition}px`,
+                      height: '100%',
+                    }}
+                    title={`Current Time: ${DEMO_CURRENT_TIME.toLocaleString(
+                      'en-US',
+                      {
+                        timeZone: 'UTC',
+                        dateStyle: 'short',
+                        timeStyle: 'short',
+                      },
+                    )} UTC`}
+                  />
+                )}
+              </div>
             </div>
           </div>
         </div>

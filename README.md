@@ -1,4 +1,6 @@
-# Qoco Monorepo
+# Qoco Programming Challenge
+
+Aircaft maintenance task visualization
 
 This project contains a TypeScript/Express backend and a React/TypeScript frontend, fully containerized and ready for development or production.
 

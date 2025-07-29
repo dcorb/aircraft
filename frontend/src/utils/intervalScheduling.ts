@@ -73,7 +73,14 @@ export function calculateRequiredLevels(workPackages: WorkPackage[]): number {
   if (workPackages.length === 0) return 0;
 
   const scheduled = assignWorkPackageLevels(workPackages);
-  return Math.max(...scheduled.map((wp) => wp.level)) + 1;
+  const maxLevel = Math.max(...scheduled.map((wp) => wp.level));
+  const requiredLevels = maxLevel + 1;
+
+  console.log(
+    `calculateRequiredLevels: ${workPackages.length} packages, max level: ${maxLevel}, required levels: ${requiredLevels}`,
+  );
+
+  return requiredLevels;
 }
 
 /**
@@ -87,11 +94,20 @@ export function calculateRowHeight(
   const workPackageLevels = calculateRequiredLevels(workPackages);
   const hasFlights = flights.length > 0;
 
-  // Base height includes space for flights (if any) and one work package level
-  // Additional levels add more height
+  // Base height includes space for flights (if any) and work package levels
   const flightHeight = hasFlights ? 28 : 0; // Space for flight row
-  const workPackageHeight = Math.max(1, workPackageLevels) * levelHeight;
+  const workPackageHeight = workPackageLevels * levelHeight; // Only add height for actual levels needed
+  const minHeight = 45; // Minimum row height even with no content
   const padding = 16; // Top and bottom padding
 
-  return flightHeight + workPackageHeight + padding;
+  const calculatedHeight = Math.max(
+    minHeight,
+    flightHeight + workPackageHeight + padding,
+  );
+
+  console.log(
+    `calculateRowHeight: flights=${flights.length}, workPackages=${workPackages.length}, levels=${workPackageLevels}, height=${calculatedHeight}`,
+  );
+
+  return calculatedHeight;
 }
