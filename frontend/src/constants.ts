@@ -25,7 +25,7 @@ export const TIMELINE_CONSTANTS = {
 export const DEMO_CURRENT_TIME = new Date(Date.UTC(2024, 3, 17, 11, 15, 0, 0));
 
 // Calculate row height
-export function getRowHeight(rowIndex?: number, customHeight?: number): number {
+export function getRowHeight(customHeight?: number): number {
   // For now, return default height, but this can be made dynamic later
   if (customHeight) return customHeight;
   return TIMELINE_CONSTANTS.DEFAULT_ROW_HEIGHT;
