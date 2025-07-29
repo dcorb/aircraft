@@ -2,12 +2,9 @@ import React, { useEffect, useState, useCallback, useRef } from 'react';
 import TimelineHeader from './TimelineHeader';
 import TimelineRow from './TimelineRow';
 import type { Flight, WorkPackage } from '../types/timeline';
-import {
-  TIMELINE_CONSTANTS,
-  getRowHeight,
-  DEMO_CURRENT_TIME,
-} from '../constants';
+import { TIMELINE_CONSTANTS, DEMO_CURRENT_TIME } from '../constants';
 import { getTimelineWidth } from '../utils/timeline';
+import { calculateRowHeight } from '../utils/intervalScheduling';
 
 // Helper functions for date management
 
@@ -343,6 +340,20 @@ const Timeline: React.FC = () => {
     scrollToCurrentTime,
   ]);
 
+  // Calculate row heights dynamically based on content
+  const rowHeights = React.useMemo(() => {
+    return registrations.map((registration) => {
+      const aircraftFlights = flights.filter(
+        (f) => f.registration === registration,
+      );
+      const aircraftWorkPackages = workPackages.filter(
+        (wp) => wp.registration === registration,
+      );
+
+      return calculateRowHeight(aircraftFlights, aircraftWorkPackages);
+    });
+  }, [registrations, flights, workPackages]);
+
   if (loading)
     return <div className="p-8 text-center">Loading timeline...</div>;
   if (error)
@@ -365,9 +376,6 @@ const Timeline: React.FC = () => {
     const visualTimelineStart = getVisualTimelineStart(timelineMin);
     currentTimePosition = getTimePosition(currentTimeMs, visualTimelineStart);
   }
-
-  // Calculate row heights (can be made dynamic based on content in the future)
-  const rowHeights = registrations.map((_, index) => getRowHeight(index));
 
   // Format date range for display
   const formatDisplayDate = (date: Date) => {

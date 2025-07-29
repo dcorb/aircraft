@@ -3,6 +3,7 @@ import { Plane, Wrench } from 'lucide-react';
 import type { TimelineRowProps } from '../types/timeline';
 import { TIMELINE_CONSTANTS } from '../constants';
 import { getTimelineStartTime } from '../utils/timeline';
+import { assignWorkPackageLevels } from '../utils/intervalScheduling';
 
 function getBlockPosition(
   start: string,
@@ -39,6 +40,15 @@ const TimelineRow: React.FC<TimelineRowProps> = ({
   // Calculate timeline start (00:00 UTC of first day)
   const timelineStart = getTimelineStartTime(minTime);
 
+  // Assign levels to work packages to avoid overlaps
+  const scheduledWorkPackages = assignWorkPackageLevels(workPackages);
+
+  // Constants for positioning
+  const FLIGHT_HEIGHT = 20;
+  const WORK_PACKAGE_HEIGHT = 24;
+  const LEVEL_SPACING = 28; // Vertical space between levels
+  const TOP_PADDING = 8;
+
   return (
     <div
       className="relative border-b border-r border-gray-200 last:border-b-0 bg-white"
@@ -59,8 +69,12 @@ const TimelineRow: React.FC<TimelineRowProps> = ({
         return (
           <div
             key={flight.flightId}
-            className="absolute top-2 h-5 bg-blue-100 text-blue-800 text-xs rounded shadow flex items-center px-2 gap-1 border border-blue-200 select-none"
-            style={{ ...pos }}
+            className="absolute bg-blue-100 text-blue-800 text-xs rounded shadow flex items-center px-2 gap-1 border border-blue-200 select-none"
+            style={{
+              ...pos,
+              top: `${TOP_PADDING}px`,
+              height: `${FLIGHT_HEIGHT}px`,
+            }}
             title={`Flight ${flight.flightNum}: ${flight.schedDepStation} → ${flight.schedArrStation}`}
           >
             <Plane className="w-3 h-3" />
@@ -71,22 +85,36 @@ const TimelineRow: React.FC<TimelineRowProps> = ({
           </div>
         );
       })}
+
       {/* Work Packages */}
-      {workPackages.map((wp) => {
+      {scheduledWorkPackages.map((wp) => {
         const pos = getBlockPosition(
           wp.startDateTime,
           wp.endDateTime,
           timelineStart,
           maxTime,
         );
+
+        // Calculate vertical position based on level
+        // Start work packages below flights (if any) with proper spacing
+        const flightSpace =
+          flights.length > 0 ? FLIGHT_HEIGHT + TOP_PADDING : 0;
+        const topPosition =
+          flightSpace + TOP_PADDING + wp.level * LEVEL_SPACING;
+
         // Simulate work order count (random 1-5)
         const workOrderCount = Math.floor(Math.random() * 5) + 1;
+
         return (
           <div
             key={wp.workPackageId}
-            className="absolute top-8 h-6 bg-green-100 text-green-800 text-xs rounded shadow flex items-center px-2 gap-1 border border-green-200 select-none"
-            style={{ ...pos }}
-            title={`Work Package: ${wp.name}`}
+            className="absolute bg-green-100 text-green-800 text-xs rounded shadow flex items-center px-2 gap-1 border border-green-200 select-none"
+            style={{
+              ...pos,
+              top: `${topPosition}px`,
+              height: `${WORK_PACKAGE_HEIGHT}px`,
+            }}
+            title={`Work Package: ${wp.name} (Level ${wp.level + 1})`}
           >
             <Wrench className="w-3 h-3" />
             <span className="truncate">
