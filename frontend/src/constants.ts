@@ -21,14 +21,17 @@ export const TIMELINE_CONSTANTS = {
   MIN_TIMELINE_WIDTH: 800,
 } as const;
 
-// Function to calculate row height (can be extended for dynamic heights)
+// Hardcoded "current time" for demo purposes - April 17, 2024 11:15 UTC
+export const DEMO_CURRENT_TIME = new Date(Date.UTC(2024, 3, 17, 11, 15, 0, 0));
+
+// Calculate row height
 export function getRowHeight(rowIndex?: number, customHeight?: number): number {
   // For now, return default height, but this can be made dynamic later
   if (customHeight) return customHeight;
   return TIMELINE_CONSTANTS.DEFAULT_ROW_HEIGHT;
 }
 
-// Function to calculate cumulative top offset for a row
+// Calculate cumulative top offset for a row
 export function getRowTopOffset(
   rowIndex: number,
   rowHeights?: number[],

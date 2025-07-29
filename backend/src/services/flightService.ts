@@ -13,11 +13,11 @@ export class FlightService {
         .prepare(
           `
         SELECT * FROM flights 
-        WHERE datetime(schedDepTime) >= datetime(?) AND datetime(schedDepTime) < datetime(?)
+        WHERE datetime(schedDepTime) < datetime(?) AND datetime(schedArrTime) > datetime(?)
         ORDER BY schedDepTime ASC
       `,
         )
-        .all(startTime, endTime) as Flight[];
+        .all(endTime, startTime) as Flight[];
 
       return {
         flights,

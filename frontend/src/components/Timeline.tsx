@@ -1,8 +1,12 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import TimelineHeader from './TimelineHeader';
 import TimelineRow from './TimelineRow';
 import type { Flight, WorkPackage } from '../types/timeline';
-import { TIMELINE_CONSTANTS, getRowHeight } from '../constants';
+import {
+  TIMELINE_CONSTANTS,
+  getRowHeight,
+  DEMO_CURRENT_TIME,
+} from '../constants';
 import { getTimelineWidth } from '../utils/timeline';
 
 // Helper functions for date management
@@ -17,30 +21,87 @@ function formatDateForAPI(date: Date): string {
   return date.toISOString();
 }
 
+// Utility function to get mid-morning time (9:00 AM) of a specific date
+function getMidMorningTime(date: Date): number {
+  return new Date(
+    Date.UTC(
+      date.getUTCFullYear(),
+      date.getUTCMonth(),
+      date.getUTCDate(),
+      9, // 9:00 AM
+      0,
+      0,
+      0,
+    ),
+  ).getTime();
+}
+
+// Utility function to get the start of day (00:00 UTC)
+function getDayStart(date: Date): Date {
+  return new Date(
+    Date.UTC(
+      date.getUTCFullYear(),
+      date.getUTCMonth(),
+      date.getUTCDate(),
+      0,
+      0,
+      0,
+      0,
+    ),
+  );
+}
+
+// Utility function to calculate visual timeline start (00:00 of first day)
+function getVisualTimelineStart(timelineMin: number): number {
+  const firstDay = new Date(timelineMin);
+  return getDayStart(firstDay).getTime();
+}
+
+// Utility function to calculate time position in pixels
+function getTimePosition(
+  targetTime: number,
+  visualTimelineStart: number,
+): number {
+  const offsetMs = targetTime - visualTimelineStart;
+  const offsetHours = offsetMs / TIMELINE_CONSTANTS.MILLISECONDS_PER_HOUR;
+  return offsetHours * TIMELINE_CONSTANTS.PIXELS_PER_HOUR;
+}
+
 const Timeline: React.FC = () => {
   const [flights, setFlights] = useState<Flight[]>([]);
   const [workPackages, setWorkPackages] = useState<WorkPackage[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
+  // Ref for the scrollable timeline container
+  const timelineScrollRef = useRef<HTMLDivElement>(null);
+
+  // Flag to control when auto-scroll should happen
+  const [shouldAutoScroll, setShouldAutoScroll] = useState(true); // Auto-scroll on initial load
+
+  // Ref to immediately track manual navigation (prevents race conditions)
+  const isManualNavigation = useRef(false);
+
   const WINDOW_DAYS = 3;
 
   // Time range state - accumulate data as user navigates
   const [currentStartDate, setCurrentStartDate] = useState<Date>(
-    () => new Date(Date.UTC(2024, 3, 15, 0, 0, 0, 0)), // April 15, 2024
+    () => getDayStart(new Date(DEMO_CURRENT_TIME)), // Load at start of demo current day
   );
   const [dataStartDate, setDataStartDate] = useState<Date | null>(null);
   const [dataEndDate, setDataEndDate] = useState<Date | null>(null);
 
   const fetchData = useCallback(
     async (startDate: Date) => {
-      const endDate = addDays(startDate, WINDOW_DAYS);
+      // Always fetch from the start of the day (00:00) to include early morning data
+      const dayStartDate = getDayStart(startDate);
+      const endDate = addDays(dayStartDate, WINDOW_DAYS);
 
       // Check if we need to fetch new data (always fetch if no data yet)
       const needsNewData =
         !dataStartDate ||
         !dataEndDate ||
-        startDate < dataStartDate ||
+        dayStartDate < dataStartDate ||
         endDate > dataEndDate;
 
       if (!needsNewData) {
@@ -61,8 +122,8 @@ const Timeline: React.FC = () => {
 
         // Expand our data range to include the new area
         const newDataStart =
-          !dataStartDate || startDate < dataStartDate
-            ? startDate
+          !dataStartDate || dayStartDate < dataStartDate
+            ? dayStartDate
             : dataStartDate;
         const newDataEnd =
           !dataEndDate || endDate > dataEndDate ? endDate : dataEndDate;
@@ -73,6 +134,8 @@ const Timeline: React.FC = () => {
         console.log('Fetching data for expanded range:', {
           startTime,
           endTime,
+          originalStartDate: startDate.toISOString(),
+          dayStartDate: dayStartDate.toISOString(),
         });
 
         const flightsUrl = `${baseUrl}/api/flights?startTime=${encodeURIComponent(startTime)}&endTime=${encodeURIComponent(endTime)}`;
@@ -142,34 +205,143 @@ const Timeline: React.FC = () => {
     ).sort();
   }, [flights, workPackages]);
 
+  // Function to scroll to center the current time
+  const scrollToCurrentTime = useCallback(() => {
+    if (!timelineScrollRef.current) return;
+
+    const container = timelineScrollRef.current;
+    const containerWidth = container.clientWidth;
+
+    // Calculate current time position
+    const currentTimeMs = DEMO_CURRENT_TIME.getTime();
+    const timelineMin = dataStartDate?.getTime() ?? currentStartDate.getTime();
+    const timelineMax =
+      (dataEndDate?.getTime() ??
+        addDays(currentStartDate, WINDOW_DAYS).getTime()) - 1;
+
+    const isCurrentTimeVisible =
+      currentTimeMs >= timelineMin && currentTimeMs <= timelineMax;
+
+    if (isCurrentTimeVisible) {
+      const visualTimelineStart = getVisualTimelineStart(timelineMin);
+      const currentTimePosition = getTimePosition(
+        currentTimeMs,
+        visualTimelineStart,
+      );
+
+      // Calculate scroll position to center the current time
+      const scrollLeft = Math.max(0, currentTimePosition - containerWidth / 2);
+
+      container.scrollTo({
+        left: scrollLeft,
+        behavior: 'smooth',
+      });
+    }
+  }, [currentStartDate, dataStartDate, dataEndDate, WINDOW_DAYS]);
+
+  // Function to scroll to a specific date
+  const scrollToDate = useCallback(
+    (targetDate: Date) => {
+      if (!timelineScrollRef.current) return;
+
+      const container = timelineScrollRef.current;
+      const timelineMin =
+        dataStartDate?.getTime() ?? currentStartDate.getTime();
+
+      const visualTimelineStart = getVisualTimelineStart(timelineMin);
+      const targetTime = getMidMorningTime(targetDate);
+      const targetPosition = getTimePosition(targetTime, visualTimelineStart);
+
+      // Center the target time in the viewport
+      const scrollLeft = Math.max(
+        0,
+        targetPosition - container.clientWidth / 2,
+      );
+
+      container.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+    },
+    [currentStartDate, dataStartDate, dataEndDate],
+  );
+
   // Navigation handlers
   const goToPrevious = () => {
+    isManualNavigation.current = true; // Immediately prevent auto-scroll
+    setShouldAutoScroll(false); // Disable auto-scroll when navigating
     setCurrentStartDate((prev) => {
-      const newDate = addDays(prev, -1); // Move 1 day back
+      // Move start date back by 1 day
+      const newDate = addDays(prev, -1);
       console.log('Previous clicked:', {
-        prev: prev.toISOString(),
-        new: newDate.toISOString(),
+        currentRange: `${formatDisplayDate(prev)} - ${formatDisplayDate(addDays(prev, WINDOW_DAYS - 1))}`,
+        newRange: `${formatDisplayDate(newDate)} - ${formatDisplayDate(addDays(newDate, WINDOW_DAYS - 1))}`,
       });
+      // Scroll to the new day that comes into view (the new start)
+      setTimeout(() => {
+        scrollToDate(newDate);
+        isManualNavigation.current = false; // Reset after scroll completes
+      }, 100);
       return newDate;
     });
   };
 
   const goToNext = () => {
+    isManualNavigation.current = true; // Immediately prevent auto-scroll
+    setShouldAutoScroll(false); // Disable auto-scroll when navigating
     setCurrentStartDate((prev) => {
-      const newDate = addDays(prev, 1); // Move 1 day forward
+      // Move start date forward by 1 day
+      const newDate = addDays(prev, 1);
+      const newEndDate = addDays(newDate, WINDOW_DAYS - 1); // The new day that comes into view
       console.log('Next clicked:', {
-        prev: prev.toISOString(),
-        new: newDate.toISOString(),
+        currentRange: `${formatDisplayDate(prev)} - ${formatDisplayDate(addDays(prev, WINDOW_DAYS - 1))}`,
+        newRange: `${formatDisplayDate(newDate)} - ${formatDisplayDate(newEndDate)}`,
+        scrollingTo: formatDisplayDate(newEndDate),
       });
+      // Scroll to the new day that comes into view (the new end)
+      setTimeout(() => {
+        scrollToDate(newEndDate);
+        isManualNavigation.current = false; // Reset after scroll completes
+      }, 100);
       return newDate;
     });
   };
 
-  const goToToday = () => {
-    const today = new Date(Date.UTC(2024, 3, 15, 0, 0, 0, 0)); // April 15, 2024 (where we have data)
-    console.log('Today clicked:', today.toISOString());
-    setCurrentStartDate(today);
+  const goToNow = () => {
+    console.log('Now clicked:', DEMO_CURRENT_TIME.toISOString());
+    isManualNavigation.current = false; // Allow auto-scroll for Now button
+    setShouldAutoScroll(true); // Enable auto-scroll for Now button
+    setCurrentStartDate(getDayStart(new Date(DEMO_CURRENT_TIME))); // Set to start of current day
+    // Scroll to current time after state update
+    setTimeout(() => scrollToCurrentTime(), 100);
   };
+
+  // Auto-scroll to current time when data loads and we're showing the current time
+  useEffect(() => {
+    if (
+      !loading &&
+      dataStartDate &&
+      dataEndDate &&
+      shouldAutoScroll &&
+      !isManualNavigation.current
+    ) {
+      const currentTimeMs = DEMO_CURRENT_TIME.getTime();
+      const isShowingCurrentTime =
+        currentTimeMs >= dataStartDate.getTime() &&
+        currentTimeMs <= dataEndDate.getTime();
+
+      if (isShowingCurrentTime) {
+        // Small delay to ensure DOM is updated
+        setTimeout(() => {
+          scrollToCurrentTime();
+          setShouldAutoScroll(false); // Reset flag after auto-scroll
+        }, 100);
+      }
+    }
+  }, [
+    loading,
+    dataStartDate,
+    dataEndDate,
+    shouldAutoScroll,
+    scrollToCurrentTime,
+  ]);
 
   if (loading)
     return <div className="p-8 text-center">Loading timeline...</div>;
@@ -183,6 +355,17 @@ const Timeline: React.FC = () => {
       addDays(currentStartDate, WINDOW_DAYS).getTime()) - 1;
   const timelineWidth = getTimelineWidth(timelineMin, timelineMax);
 
+  // Calculate current time line position
+  const currentTimeMs = DEMO_CURRENT_TIME.getTime();
+  const isCurrentTimeVisible =
+    currentTimeMs >= timelineMin && currentTimeMs <= timelineMax;
+
+  let currentTimePosition = 0;
+  if (isCurrentTimeVisible) {
+    const visualTimelineStart = getVisualTimelineStart(timelineMin);
+    currentTimePosition = getTimePosition(currentTimeMs, visualTimelineStart);
+  }
+
   // Calculate row heights (can be made dynamic based on content in the future)
   const rowHeights = registrations.map((_, index) => getRowHeight(index));
 
@@ -194,10 +377,6 @@ const Timeline: React.FC = () => {
       year: 'numeric',
     });
   };
-
-  const isToday =
-    currentStartDate.getTime() ===
-    new Date(Date.UTC(2024, 3, 15, 0, 0, 0, 0)).getTime();
 
   return (
     <div className="h-screen overflow-hidden bg-gray-50">
@@ -232,15 +411,10 @@ const Timeline: React.FC = () => {
               {flights.length} flights, {workPackages.length} work packages
             </span>
             <button
-              onClick={goToToday}
-              disabled={isToday}
-              className={`px-4 py-2 text-sm rounded border transition-colors ${
-                isToday
-                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                  : 'bg-blue-500 text-white hover:bg-blue-600'
-              }`}
+              onClick={goToNow}
+              className="px-4 py-2 text-sm rounded border transition-colors bg-blue-500 text-white hover:bg-blue-600"
             >
-              Today
+              Now
             </button>
           </div>
         </div>
@@ -271,7 +445,7 @@ const Timeline: React.FC = () => {
         </div>
 
         {/* Timeline */}
-        <div className="flex-1 overflow-auto">
+        <div className="flex-1 overflow-auto" ref={timelineScrollRef}>
           <div className="relative min-w-full">
             <div
               style={{
@@ -306,6 +480,25 @@ const Timeline: React.FC = () => {
                   />
                 );
               })}
+
+              {/* Current Time Indicator Line */}
+              {isCurrentTimeVisible && (
+                <div
+                  className="absolute top-0 w-px bg-black z-10"
+                  style={{
+                    left: `${currentTimePosition}px`,
+                    height: '100%',
+                  }}
+                  title={`Current Time: ${DEMO_CURRENT_TIME.toLocaleString(
+                    'en-US',
+                    {
+                      timeZone: 'UTC',
+                      dateStyle: 'short',
+                      timeStyle: 'short',
+                    },
+                  )} UTC`}
+                />
+              )}
             </div>
           </div>
         </div>
