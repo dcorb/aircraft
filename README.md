@@ -2,6 +2,8 @@
 
 This project contains a TypeScript/Express backend and a React/TypeScript frontend, fully containerized and ready for development or production.
 
+<img width="2436" height="1200" alt="image" src="https://github.com/user-attachments/assets/8518bac9-bb47-4cd8-a3da-02a9c4d82823" />
+
 ---
 
 ## Quick Start (Recommended)
