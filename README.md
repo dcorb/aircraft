@@ -1,6 +1,4 @@
-# Qoco Programming Challenge
-
-Aircaft maintenance task visualization
+# Aircaft maintenance task visualization
 
 This project contains a TypeScript/Express backend and a React/TypeScript frontend, fully containerized and ready for development or production.
 
@@ -11,11 +9,6 @@ This project contains a TypeScript/Express backend and a React/TypeScript fronte
 To run the project with **Docker Compose**, both frontend and backend together with proper networking and environment variables:
 
 ```sh
-# Clone the repository
-git clone <your-repo-url>
-cd qoco
-
-# Run everything with Docker Compose
 docker compose up --build
 ```
 
@@ -23,8 +16,6 @@ That's it, the app will be available at:
 
 - **Frontend**: http://localhost:8080
 - **Backend**: http://localhost:3001
-
-No additional setup, environment files, or configuration needed.
 
 ---
 
@@ -71,7 +62,6 @@ No additional setup, environment files, or configuration needed.
 ## Project Structure
 
 ```
-qoco/
   backend/    # Node.js/Express/TypeScript API
   frontend/   # React/TypeScript app (Vite)
 ```
